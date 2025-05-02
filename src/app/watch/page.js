@@ -1,16 +1,25 @@
 "use client"
 
+import useYouTubePlayer from "@/hooks/useYouTubePlayer";
 import { useSearchParams } from "next/navigation";
 
 export default function Watch() {
     const searchParams = useSearchParams()
     const {v: video_id} = Object.fromEntries(searchParams)
     const url =`https://www.youtube.com/embed/${video_id}`
-    console.log(video_id)
-  return <>
+    const playerElementId = "youtube-player"
+
+    useYouTubePlayer(video_id, playerElementId)
+    return <>
             <h1>this is the watch page</h1>
-            <div>
-                <iframe width="560" height="315" src={url} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+
+            <div className="w-full h-full px-5">
+                <div id="video-container" className="relative w-full h-full">
+                    <div className="relative w-full pt-[56.25%] bg-black">
+                        <div id={playerElementId} className="absolute top-0 left-0 w-full h-full" />
+                    </div>
+                </div>
             </div>
-  </>;
+                
+    </>;
 };
