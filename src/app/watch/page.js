@@ -1,25 +1,31 @@
-"use client"
+"use client";
 
 import useYouTubePlayer from "@/hooks/useYouTubePlayer";
 import { useSearchParams } from "next/navigation";
 
 export default function Watch() {
-    const searchParams = useSearchParams()
-    const {v: video_id} = Object.fromEntries(searchParams)
-    const url =`https://www.youtube.com/embed/${video_id}`
-    const playerElementId = "youtube-player"
+  const searchParams = useSearchParams();
+  const { v: video_id } = Object.fromEntries(searchParams);
+  const url = `https://www.youtube.com/embed/${video_id}`;
+  const playerElementId = "youtube-player";
 
-    useYouTubePlayer(video_id, playerElementId)
-    return <>
-            <h1>this is the watch page</h1>
+  const playerState = useYouTubePlayer(video_id, playerElementId);
+  return (
+    <>
+      <div className="w-full h-full px-5">
+        <div id="video-container" className="relative w-full h-full">
+          <div className="relative w-full pt-[56.25%] bg-black">
+            <div
+              id={playerElementId}
+              className="absolute top-0 left-0 w-full h-full"
+            />
+          </div>
+        </div>
+      </div>
 
-            <div className="w-full h-full px-5">
-                <div id="video-container" className="relative w-full h-full">
-                    <div className="relative w-full pt-[56.25%] bg-black">
-                        <div id={playerElementId} className="absolute top-0 left-0 w-full h-full" />
-                    </div>
-                </div>
-            </div>
-                
-    </>;
-};
+      <h1>
+        {playerElementId} - {playerState?.isReady ? "Ready" : "Loading"}
+      </h1>
+    </>
+  );
+}
