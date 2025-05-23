@@ -1,6 +1,6 @@
 "use client";
 
-import extractYouTubeInfo from "@/lib/extractYouTubeInfo";
+import ExtractYouTubeInfo from "@/lib/ExtractYouTubeInfo";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
@@ -21,7 +21,7 @@ export default function YouTubeUrlForm() {
   const handleUrlChange = (event) => {
     let changedUrl = event.target.value ? event.target.value : "";
     setUrl(changedUrl);
-    let { videoId, time } = extractYouTubeInfo(changedUrl);
+    let { videoId, time } = ExtractYouTubeInfo(changedUrl);
     setVideoData({ videoId: videoId, time: time ? time : 0 });
   };
 
