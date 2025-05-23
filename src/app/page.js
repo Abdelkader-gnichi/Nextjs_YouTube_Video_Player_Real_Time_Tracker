@@ -1,3 +1,4 @@
+import YouTubeUrlForm from "@/components/YouTubeUrlForm";
 import Image from "next/image";
 
 export default function Home() {
@@ -26,8 +27,7 @@ export default function Home() {
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/gRYjxClWJYc?si=8ehTu82jNhMGKJa-" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-         
+          <YouTubeUrlForm />
         </div>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
