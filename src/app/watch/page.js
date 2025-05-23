@@ -24,8 +24,9 @@ export default function Watch() {
       </div>
 
       <h1>
-        {playerElementId} - {playerState?.isReady ? "Ready" : "Loading"}
+        watch {playerState?.videoData.title} - {playerState?.isReady ? "Ready" : "Loading"}
       </h1>
+      <div>{playerState && JSON.stringify(playerState)}</div>
     </>
   );
 }

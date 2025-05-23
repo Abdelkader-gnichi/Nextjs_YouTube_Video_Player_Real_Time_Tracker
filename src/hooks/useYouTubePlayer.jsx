@@ -2,11 +2,18 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+function getKeyByValue(object, value) {
+  return Object.keys(object).find((key) => object[key] === value);
+}
+
 export default function useYouTubePlayer(videoId, elementId) {
   const playerElementId = elementId || "video-player";
   const [playerState, setPlayerState] = useState({
     isReady: false,
-    currentTrime: 0,
+    currentTime: 0,
+    videoData: { title: "" },
+    videoStateLabel: "",
+    videoStateValue: -10,
   });
   const playerRef = useRef(null);
 
@@ -38,17 +45,25 @@ export default function useYouTubePlayer(videoId, elementId) {
   }, [videoId]);
 
   const handelOnReady = useCallback((event) => {
-    setPlayerState({ isReady: true });
+    setPlayerState((prevState) => ({ ...prevState, isReady: true }));
+    handelOnStateChange();
   }, []);
 
   const handelOnStateChange = useCallback(() => {
     const playerStateObj = window.YT.PlayerState;
+    const playerInfo = playerRef.current.playerInfo;
     const videoData = playerRef.current.getVideoData();
     const currentTime = playerRef.current.getCurrentTime();
+    const videoStateValue = playerInfo.playerState;
+    const videoStateLabel = getKeyByValue(playerStateObj, videoStateValue);
 
-    // console.log(playerStateObj);
-    console.log(videoData);
-    console.log(currentTime);
+    setPlayerState((prevState) => ({
+      ...prevState,
+      videoData: videoData,
+      currentTime: currentTime,
+      videoStateLabel: videoStateLabel,
+      videoStateValue: videoStateValue,
+    }));
   }, []);
   return playerState;
 }
