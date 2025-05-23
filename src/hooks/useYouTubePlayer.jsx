@@ -6,7 +6,12 @@ function getKeyByValue(object, value) {
   return Object.keys(object).find((key) => object[key] === value);
 }
 
-export default function useYouTubePlayer(videoId, elementId) {
+export default function useYouTubePlayer(
+  videoId,
+  elementId,
+  startTime = 200,
+  interval = 5000,
+) {
   const playerElementId = elementId || "video-player";
   const [playerState, setPlayerState] = useState({
     isReady: false,
@@ -33,6 +38,7 @@ export default function useYouTubePlayer(videoId, elementId) {
         videoId: videoId,
         playerVars: {
           playsinline: 1,
+          start: startTime,
         },
         events: {
           onReady: handelOnReady,
@@ -43,6 +49,14 @@ export default function useYouTubePlayer(videoId, elementId) {
       playerRef.current = new YT.Player(playerElementId, videoOptions);
     };
   }, [videoId]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      console.log(`triggiring change`);
+      handelOnStateChange();
+    }, interval);
+    return () => { clearInterval(intervalId)}
+  }, []);
 
   const handelOnReady = useCallback((event) => {
     setPlayerState((prevState) => ({ ...prevState, isReady: true }));
@@ -59,11 +73,12 @@ export default function useYouTubePlayer(videoId, elementId) {
 
     setPlayerState((prevState) => ({
       ...prevState,
-      videoData: videoData,
+      videoData: videoData.title,
       currentTime: currentTime,
       videoStateLabel: videoStateLabel,
       videoStateValue: videoStateValue,
     }));
   }, []);
+
   return playerState;
 }
