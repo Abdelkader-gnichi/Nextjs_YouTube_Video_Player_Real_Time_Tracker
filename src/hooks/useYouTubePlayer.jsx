@@ -52,10 +52,11 @@ export default function useYouTubePlayer(
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      console.log(`triggiring change`);
       handelOnStateChange();
     }, interval);
-    return () => { clearInterval(intervalId)}
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   const handelOnReady = useCallback((event) => {
@@ -73,7 +74,7 @@ export default function useYouTubePlayer(
 
     setPlayerState((prevState) => ({
       ...prevState,
-      videoData: videoData.title,
+      videoData: { title: videoData.title },
       currentTime: currentTime,
       videoStateLabel: videoStateLabel,
       videoStateValue: videoStateValue,
